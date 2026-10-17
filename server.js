@@ -58,6 +58,11 @@ app.post('/paypal-ipn', async (req, res) => {
   }
 });
 
+// Ruta de bienvenida para la página principal
+app.get('/', (req, res) => {
+  res.send('¡El servidor de PayPal e IPN para Firebase está activo y funcionando correctamente!');
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Servidor escuchando en el puerto ${PORT}`);
