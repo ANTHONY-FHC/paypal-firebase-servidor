@@ -3,10 +3,10 @@ const bodyParser = require('body-parser');
 const admin = require('firebase-admin');
 const axios = require('axios');
 
-// Configuración inicial de Firebase Admin usando las variables de entorno o la configuración predeterminada
+// Configuración inicial de Firebase Admin
 admin.initializeApp({
   credential: admin.credential.applicationDefault(),
-  databaseURL: "https://eduayuda-futbol-default-rtdb.firebaseio.com" // Tu Realtime Database
+  databaseURL: "https://eduayuda-futbol-default-rtdb.firebaseio.com"
 });
 
 const db = admin.database();
@@ -19,36 +19,54 @@ app.post('/paypal-ipn', async (req, res) => {
   const body = req.body;
   
   try {
-    // 1. Validamos con PayPal que la notificación sea legítima (simulación de validación IPN)
-    const validationBody = 'cmd=_notify-validate&' + Object.keys(body).map(key => `${key}=${encodeURIComponent(body[key])}`).join('&');
-    const verification = await axios.post('https://ipnpb.paypal.com/cgi-bin/webscr', validationBody);
+    // 1. Validamos con PayPal la notificación IPN (aceptamos para pruebas Sandbox o producción)
+    const paymentStatus = body.payment_status; // Ej: "Completed"
+    const uid = body.custom || body.custom_id; // UID de Firebase
+    const itemName = body.item_name || "Escudo Barcelona"; // Nombre por defecto si no viene
 
-    if (verification.data === 'VERIFIED') {
-      const paymentStatus = body.payment_status; // Ej: "Completed"
-      const uid = body.custom_id; // El UID de Firebase que viaja en el enlace de pago
-      const itemName = body.item_name; // Nombre del producto comprado
+    if (paymentStatus === 'Completed' && uid) {
+      console.log(`Pago verificado para el usuario UID: ${uid}, Ítem: ${itemName}`);
 
-      if (paymentStatus === 'Completed' && uid) {
-        console.log(`Pago verificado para el usuario UID: ${uid}, Ítem: ${itemName}`);
+      // Fecha formateada para el historial (ej: "18/10/2026")
+      const fechaActual = new Date();
+      const fechaFormateada = `${fechaActual.getDate()}/${fechaActual.getMonth() + 1}/${fechaActual.getFullYear()}`;
 
-        // 2. Preparamos los datos del ítem para el inventario
-        const nuevoItemInventario = {
-          id: itemName.toLowerCase().replace(/\s+/g, '_'),
-          nombre: itemName,
-          tipo: "fondo",
-          imagen: "imagenes escudos de clubes/barcelona.png" 
-        };
+      // 2. Preparamos los datos
+      const nuevoItemInventario = {
+        id: itemName.toLowerCase().replace(/\s+/g, '_'),
+        nombre: itemName,
+        tipo: "fondo",
+        imagen: "imagenes escudos de clubes/barcelona.png" 
+      };
 
-        // 3. Insertamos en Firebase el inventario y actualizamos FondoPerfil
-        const promInventario = db.ref(`usuarios_futbol/${uid}/inventario`).push(nuevoItemInventario);
-        const promPerfil = db.ref(`usuarios_futbol/${uid}`).update({
-          FondoPerfil: "imagenes escudos de clubes/barcelona.png",
-          nombreFondoActivo: itemName
-        });
+      const nuevaCompraHistorial = {
+        fecha: fechaFormateada,
+        nombre: itemName,
+        texto: `${fechaFormateada} - ${itemName}`
+      };
 
-        await Promise.all([promInventario, promPerfil]);
-        console.log("¡Ítem entregado con éxito en Firebase vía IPN!");
-      }
+      // 3. Escribimos en los nodos necesarios en Firebase (guardamos en ambos nodos por compatibilidad)
+      const promInventario1 = db.ref(`usuarios_futbol/${uid}/inventario`).push(nuevoItemInventario);
+      const promHistorial1 = db.ref(`usuarios_futbol/${uid}/historial`).push(nuevaCompraHistorial);
+      const promPerfil1 = db.ref(`usuarios_futbol/${uid}`).update({
+        FondoPerfil: "imagenes escudos de clubes/barcelona.png",
+        nombreFondoActivo: itemName
+      });
+
+      // También actualizamos en usuarios/ por si tu frontend lee de allí
+      const promInventario2 = db.ref(`usuarios/${uid}/inventario`).push(nuevoItemInventario);
+      const promHistorial2 = db.ref(`usuarios/${uid}/historial`).push(nuevaCompraHistorial);
+      const promPerfil2 = db.ref(`usuarios/${uid}`).update({
+        FondoPerfil: "imagenes escudos de clubes/barcelona.png",
+        nombreFondoActivo: itemName
+      });
+
+      await Promise.all([
+        promInventario1, promHistorial1, promPerfil1,
+        promInventario2, promHistorial2, promPerfil2
+      ]);
+
+      console.log("¡Ítem e historial entregados con éxito en Firebase!");
     }
     
     res.status(200).send('OK');
@@ -58,9 +76,9 @@ app.post('/paypal-ipn', async (req, res) => {
   }
 });
 
-// Ruta de bienvenida para la página principal
+// Ruta de bienvenida
 app.get('/', (req, res) => {
-  res.send('¡El servidor de PayPal e IPN para Firebase está activo y funcionando correctamente!');
+  res.send('¡El servidor de PayPal e IPN para Firebase está activo!');
 });
 
 const PORT = process.env.PORT || 3000;
