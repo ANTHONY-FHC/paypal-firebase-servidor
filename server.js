@@ -3,11 +3,19 @@ const bodyParser = require('body-parser');
 const admin = require('firebase-admin');
 const axios = require('axios');
 
-// Configuración inicial de Firebase Admin
-admin.initializeApp({
-  credential: admin.credential.applicationDefault(),
-  databaseURL: "https://eduayuda-futbol-default-rtdb.firebaseio.com"
-});
+// Configuración inicial de Firebase Admin usando la variable de entorno de Render
+try {
+  const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
+  
+  admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+    databaseURL: "https://eduayuda-futbol-default-rtdb.firebaseio.com"
+  });
+  
+  console.log("Firebase Admin inicializado correctamente con la variable de entorno.");
+} catch (error) {
+  console.error("Error al inicializar Firebase Admin con variable de entorno:", error.message);
+}
 
 const db = admin.database();
 const app = express();
