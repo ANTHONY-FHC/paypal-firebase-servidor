@@ -27,46 +27,78 @@ app.post('/paypal-ipn', async (req, res) => {
   const body = req.body;
   
   try {
-    // 1. Validamos con PayPal la notificación IPN (aceptamos para pruebas Sandbox o producción)
+    // 1. Validamos con PayPal la notificación IPN
     const paymentStatus = body.payment_status; // Ej: "Completed"
     const uid = body.custom || body.custom_id; // UID de Firebase
-    const itemName = body.item_name || "Escudo Barcelona"; // Nombre por defecto si no viene
+    const itemName = body.item_name || "Escudo Barcelona"; // Nombre por defecto
 
     if (paymentStatus === 'Completed' && uid) {
-      console.log(`Pago verificado para el usuario UID: ${uid}, Ítem: ${itemName}`);
+      console.log(`Pago verificado para el usuario UID: ${uid}, Ítem recibido: ${itemName}`);
 
-      // Fecha formateada para el historial (ej: "18/10/2026")
+      // Fecha formateada para el historial
       const fechaActual = new Date();
       const fechaFormateada = `${fechaActual.getDate()}/${fechaActual.getMonth() + 1}/${fechaActual.getFullYear()}`;
 
-      // 2. Preparamos los datos
-      const nuevoItemInventario = {
-        id: itemName.toLowerCase().replace(/\s+/g, '_'),
+      // 2. Base de datos o diccionario con la información de todos tus equipos
+      const equiposDisponibles = {
+        "barcelona": {
+          nombre: "Escudo Barcelona",
+          imagen: "imagenes escudos de clubes/barcelona.png"
+        },
+        "real madrid": {
+          nombre: "Escudo Real Madrid",
+          imagen: "imagenes escudos de clubes/real_madrid.png"
+        },
+        "manchester united": {
+          nombre: "Escudo Manchester United",
+          imagen: "imagenes escudos de clubes/manchester_united.png"
+        },
+        "emelec": {
+          nombre: "Escudo Emelec",
+          imagen: "imagenes escudos de clubes/emelec.png"
+        }
+        // Puedes seguir agregando más equipos aquí abajo simplemente copiando la estructura
+      };
+
+      // Limpiamos el texto que llega de PayPal para buscarlo en nuestro diccionario
+      const claveBusqueda = itemName.toLowerCase().replace('escudo', '').trim();
+      
+      // Buscamos el equipo en el diccionario, si no existe, construye una ruta por defecto limpia
+      const equipoInfo = equiposDisponibles[claveBusqueda] || {
         nombre: itemName,
+        imagen: `imagenes escudos de clubes/${claveBusqueda.replace(/\s+/g, '_')}.png`
+      };
+
+      const nombreOficial = equipoInfo.nombre;
+      const rutaImagen = equipoInfo.imagen;
+
+      // 3. Preparamos los datos dinámicos
+      const nuevoItemInventario = {
+        id: nombreOficial.toLowerCase().replace(/\s+/g, '_'),
+        nombre: nombreOficial,
         tipo: "fondo",
-        imagen: "imagenes escudos de clubes/barcelona.png" 
+        imagen: rutaImagen 
       };
 
       const nuevaCompraHistorial = {
         fecha: fechaFormateada,
-        nombre: itemName,
-        texto: `${fechaFormateada} - ${itemName}`
+        nombre: nombreOficial,
+        texto: `${fechaFormateada} - ${nombreOficial}`
       };
 
-      // 3. Escribimos en los nodos necesarios en Firebase (guardamos en ambos nodos por compatibilidad)
+      // 4. Escribimos en los nodos necesarios en Firebase (en ambos nodos por compatibilidad)
       const promInventario1 = db.ref(`usuarios_futbol/${uid}/inventario`).push(nuevoItemInventario);
       const promHistorial1 = db.ref(`usuarios_futbol/${uid}/historial`).push(nuevaCompraHistorial);
       const promPerfil1 = db.ref(`usuarios_futbol/${uid}`).update({
-        FondoPerfil: "imagenes escudos de clubes/barcelona.png",
-        nombreFondoActivo: itemName
+        FondoPerfil: rutaImagen,
+        nombreFondoActivo: nombreOficial
       });
 
-      // También actualizamos en usuarios/ por si tu frontend lee de allí
       const promInventario2 = db.ref(`usuarios/${uid}/inventario`).push(nuevoItemInventario);
       const promHistorial2 = db.ref(`usuarios/${uid}/historial`).push(nuevaCompraHistorial);
       const promPerfil2 = db.ref(`usuarios/${uid}`).update({
-        FondoPerfil: "imagenes escudos de clubes/barcelona.png",
-        nombreFondoActivo: itemName
+        FondoPerfil: rutaImagen,
+        nombreFondoActivo: nombreOficial
       });
 
       await Promise.all([
@@ -74,7 +106,7 @@ app.post('/paypal-ipn', async (req, res) => {
         promInventario2, promHistorial2, promPerfil2
       ]);
 
-      console.log("¡Ítem e historial entregados con éxito en Firebase!");
+      console.log(`¡Ítem (${nombreOficial}) e historial entregados con éxito en Firebase!`);
     }
     
     res.status(200).send('OK');
