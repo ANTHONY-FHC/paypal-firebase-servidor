@@ -47,7 +47,7 @@ app.post('/paypal-ipn', async (req, res) => {
         },
         "real madrid": {
           nombre: "Escudo Real Madrid",
-          imagen: "imagenes escudos de clubes/real_madrid.png"
+          imagen: "imagenes escudos de clubes/realmadrid.png"
         },
         "manchester united": {
           nombre: "Escudo Manchester United",
