@@ -144,6 +144,38 @@ app.post('/paypal-ipn', async (req, res) => {
         "nottingham forest": {
           nombre: "Escudo Nottingham Forest",
           imagen: "imagenes escudos de clubes/nottingham.png"
+        },
+        "benfica": {
+          nombre: "Escudo Benfica",
+          imagen: "imagenes escudos de clubes/benfica.png"
+        },
+        "porto": {
+          nombre: "Escudo Porto",
+          imagen: "imagenes escudos de clubes/porto.png"
+        },
+        "arouca": {
+          nombre: "Escudo Arouca",
+          imagen: "imagenes escudos de clubes/arouca.png"
+        },
+        "brentford": {
+          nombre: "Escudo Brentford",
+          imagen: "imagenes escudos de clubes/brentford.png"
+        },
+        "leeds": {
+          nombre: "Escudo Leeds",
+          imagen: "imagenes escudos de clubes/leeds.png"
+        },
+        "everton": {
+          nombre: "Escudo Everton",
+          imagen: "imagenes escudos de clubes/everton.png"
+        },
+        "hull city": {
+          nombre: "Escudo Hull City",
+          imagen: "imagenes escudos de clubes/hullcity.png"
+        },
+        "newcastle": {
+          nombre: "Escudo Newcastle",
+          imagen: "imagenes escudos de clubes/newcastle.png"
         }
         // Puedes seguir agregando más equipos aquí abajo simplemente copiando la estructura
       };
