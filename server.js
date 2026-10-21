@@ -208,6 +208,38 @@ app.post('/paypal-ipn', async (req, res) => {
         "racing club": {
           nombre: "Escudo Racing Club",
           imagen: "imagenes escudos de clubes/racing.png"
+        },
+        "san lorenzo": {
+          nombre: "Escudo San Lorenzo",
+          imagen: "imagenes escudos de clubes/lorenzo.png"
+        },
+        "huracan": {
+          nombre: "Escudo Huracan",
+          imagen: "imagenes escudos de clubes/huracan.png"
+        },
+        "flamengo": {
+          nombre: "Escudo Flamengo",
+          imagen: "imagenes escudos de clubes/flamengo.png"
+        },
+        "fluminense": {
+          nombre: "Escudo Fluminense",
+          imagen: "imagenes escudos de clubes/fluminense.png"
+        },
+        "botafogo": {
+          nombre: "Escudo Botafogo",
+          imagen: "imagenes escudos de clubes/botafogo.png"
+        },
+        "corinthians": {
+          nombre: "Escudo Corinthians",
+          imagen: "imagenes escudos de clubes/corinthians.png"
+        },
+        "palmeiras": {
+          nombre: "Escudo Palmeiras",
+          imagen: "imagenes escudos de clubes/palmeiras.png"
+        },
+        "cruzeiro": {
+          nombre: "Escudo Cruzeiro",
+          imagen: "imagenes escudos de clubes/cruzeiro.png"
         }
         // Puedes seguir agregando más equipos aquí abajo simplemente copiando la estructura
       };
