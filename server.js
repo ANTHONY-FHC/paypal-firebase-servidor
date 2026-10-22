@@ -384,6 +384,54 @@ app.post('/paypal-ipn', async (req, res) => {
         "deportivo tachira": {
           nombre: "Escudo Deportivo Táchira",
           imagen: "imagenes escudos de clubes/tachira.png"
+        },
+        "cienciano": {
+          nombre: "Escudo Cienciano",
+          imagen: "imagenes escudos de clubes/cienciano.png"
+        },
+        "caracas": {
+          nombre: "Escudo Caracas",
+          imagen: "imagenes escudos de clubes/caracasfc.png"
+        },
+        "portugesa": {
+          nombre: "Escudo Portugesa",
+          imagen: "imagenes escudos de clubes/portugesa.png"
+        },
+        "bolivar": {
+          nombre: "Escudo Bolívar",
+          imagen: "imagenes escudos de clubes/bolivar.png"
+        },
+        "real potosi": {
+          nombre: "Escudo Real Potosí",
+          imagen: "imagenes escudos de clubes/potosi.png"
+        },
+        "blooming": {
+          nombre: "Escudo Blooming",
+          imagen: "imagenes escudos de clubes/blooming.png"
+        },
+        "olimpia": {
+          nombre: "Escudo Olimpia",
+          imagen: "imagenes escudos de clubes/olimpia.png"
+        },
+        "2 de mayo": {
+          nombre: "Escudo 2 De Mayo",
+          imagen: "imagenes escudos de clubes/dmayo.png"
+        },
+        "libertad": {
+          nombre: "Escudo Libertad",
+          imagen: "imagenes escudos de clubes/libertad.png"
+        },
+        "cerro porteno": {
+          nombre: "Escudo Cerro Porteño",
+          imagen: "imagenes escudos de clubes/porteño.png"
+        },
+        "sportivo trinidense": {
+          nombre: "Escudo Sportivo Trinidense",
+          imagen: "imagenes escudos de clubes/trinidense.png"
+        },
+        "sportivo ameliano": {
+          nombre: "Escudo Sportivo Ameliano",
+          imagen: "imagenes escudos de clubes/ameliano.png"
         }
         // Puedes seguir agregando más equipos aquí abajo simplemente copiando la estructura
       };
