@@ -332,6 +332,58 @@ app.post('/paypal-ipn', async (req, res) => {
         "santa fe": {
           nombre: "Escudo Santa Fe",
           imagen: "imagenes escudos de clubes/santafe.png"
+        },
+        "colo-colo": {
+          nombre: "Escudo Colo-Colo",
+          imagen: "imagenes escudos de clubes/colo.png"
+        },
+        "america de cali": {
+          nombre: "Escudo América De Cali",
+          imagen: "imagenes escudos de clubes/adc.png"
+        },
+        "universidad de chile": {
+          nombre: "Escudo Universidad De Chile",
+          imagen: "imagenes escudos de clubes/udc.png"
+        },
+        "universidad catolica": {
+          nombre: "Escudo Universidad Católica",
+          imagen: "imagenes escudos de clubes/ucatolica.png"
+        },
+        "peñarol": {
+          nombre: "Escudo Peñarol",
+          imagen: "imagenes escudos de clubes/peñarol.png"
+        },
+        "nacional": {
+          nombre: "Escudo Nacional",
+          imagen: "imagenes escudos de clubes/nacional.png"
+        },
+        "city torque": {
+          nombre: "Escudo City Torque",
+          imagen: "imagenes escudos de clubes/torque.png"
+        },
+        "everton vina mar": {
+          nombre: "Escudo Everton V.D.M",
+          imagen: "imagenes escudos de clubes/evertonvm.png"
+        },
+        "sporting cristal": {
+          nombre: "Escudo Sporting Cristal",
+          imagen: "imagenes escudos de clubes/sportingcr.png"
+        },
+        "alianza lima": {
+          nombre: "Escudo Alianza Lima",
+          imagen: "imagenes escudos de clubes/lima.png"
+        },
+        "universitario": {
+          nombre: "Escudo Universitario",
+          imagen: "imagenes escudos de clubes/universitario.png"
+        },
+        "metropolitanos": {
+          nombre: "Escudo Metropolitanos",
+          imagen: "imagenes escudos de clubes/metro.png"
+        },
+        "deportivo tachira": {
+          nombre: "Escudo Deportivo Táchira",
+          imagen: "imagenes escudos de clubes/tachira.png"
         }
         // Puedes seguir agregando más equipos aquí abajo simplemente copiando la estructura
       };
