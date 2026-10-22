@@ -280,6 +280,58 @@ app.post('/paypal-ipn', async (req, res) => {
         "i.d.v": {
           nombre: "Escudo I.D.V",
           imagen: "imagenes escudos de clubes/idv.png"
+        },
+        "club america": {
+          nombre: "Escudo América",
+          imagen: "imagenes escudos de clubes/america.png"
+        },
+        "guadalajara": {
+          nombre: "Escudo Guadalajara",
+          imagen: "imagenes escudos de clubes/guadalajara.png"
+        },
+        "cruz azul": {
+          nombre: "Escudo Cruz Azul",
+          imagen: "imagenes escudos de clubes/cruzazul.png"
+        },
+        "pumas": {
+          nombre: "Escudo Pumas",
+          imagen: "imagenes escudos de clubes/pumas.png"
+        },
+        "tigres": {
+          nombre: "Escudo Tigres",
+          imagen: "imagenes escudos de clubes/tigres.png"
+        },
+        "toluca": {
+          nombre: "Escudo Toluca",
+          imagen: "imagenes escudos de clubes/toluca.png"
+        },
+        "monterrey": {
+          nombre: "Escudo Monterrey",
+          imagen: "imagenes escudos de clubes/monterrey.png"
+        },
+        "pachuca": {
+          nombre: "Escudo Pachuca",
+          imagen: "imagenes escudos de clubes/pachuca.png"
+        },
+        "atletico nacional": {
+          nombre: "Escudo Atletico Nacional",
+          imagen: "imagenes escudos de clubes/anacional.png"
+        },
+        "independiente": {
+          nombre: "Escudo Independiente",
+          imagen: "imagenes escudos de clubes/cai.png"
+        },
+        "deportivo cali": {
+          nombre: "Escudo Deportivo Cali",
+          imagen: "imagenes escudos de clubes/dcali.png"
+        },
+        "millonarios": {
+          nombre: "Escudo Millonarios",
+          imagen: "imagenes escudos de clubes/millo.png"
+        },
+        "santa fe": {
+          nombre: "Escudo Santa Fe",
+          imagen: "imagenes escudos de clubes/santafe.png"
         }
         // Puedes seguir agregando más equipos aquí abajo simplemente copiando la estructura
       };
