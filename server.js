@@ -27,12 +27,27 @@ app.post('/paypal-ipn', async (req, res) => {
   const body = req.body;
   
   try {
-    // 1. Validamos con PayPal la notificación IPN
-    const paymentStatus = body.payment_status; // Ej: "Completed"
-    const uid = body.custom || body.custom_id; // UID de Firebase
-    const itemName = body.item_name || "Escudo Barcelona"; // Nombre por defecto
+    // 1. Validamos con PayPal la notificación IPN mediante _notify-validate
+    let validationBody = 'cmd=_notify-validate';
+    for (let key in body) {
+      if (body.hasOwnProperty(key)) {
+        validationBody += `&${key}=${encodeURIComponent(body[key])}`;
+      }
+    }
 
-    if (paymentStatus === 'Completed' && uid) {
+    const paypalUrl = 'https://ipnpb.paypal.com/cgi-bin/webscr';
+    const verificationResponse = await axios.post(paypalUrl, validationBody, {
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+    });
+
+    // 2. Solo continuamos si PayPal confirma que la transacción es real ("VERIFIED")
+    if (verificationResponse.data.trim() === 'VERIFIED') {
+
+      const paymentStatus = body.payment_status; // Ej: "Completed"
+      const uid = body.custom || body.custom_id; // UID de Firebase
+      const itemName = body.item_name || "Escudo Barcelona"; // Nombre por defecto
+
+      if (paymentStatus === 'Completed' && uid) {
       console.log(`Pago verificado para el usuario UID: ${uid}, Ítem recibido: ${itemName}`);
 
       // Fecha formateada para el historial
@@ -485,7 +500,12 @@ app.post('/paypal-ipn', async (req, res) => {
       console.log(`¡Ítem (${nombreOficial}) e historial entregados con éxito en Firebase!`);
     }
     
-    res.status(200).send('OK');
+      res.status(200).send('IPN Validated Successfully');
+    } else {
+      console.warn('¡Alerta! IPN no verificado detectado por PayPal.');
+      res.status(400).send('Invalid IPN');
+    }
+
   } catch (error) {
     console.error("Error procesando el IPN de PayPal:", error);
     res.status(500).send('Internal Server Error');
