@@ -50,10 +50,7 @@ app.post('/paypal-ipn', async (req, res) => {
       if (paymentStatus === 'Completed' && uid) {
       console.log(`Pago verificado para el usuario UID: ${uid}, Ítem recibido: ${itemName}`);
 
-      // Fecha formateada para el historial
-      const fechaActual = new Date();
-      const fechaFormateada = `${fechaActual.getDate()}/${fechaActual.getMonth() + 1}/${fechaActual.getFullYear()}`;
-        
+     const idBotonPayPal = body.item_number; 
       // 1. Diccionarios con los códigos de los botones de PayPal
       const packsMonedas = {
      'QDC4JL76U87WY': 500,   // Pack de 500 GolCoins
@@ -65,6 +62,34 @@ app.post('/paypal-ipn', async (req, res) => {
      const packsVIP = {
     'R2JUTXC7BX4A2': true   // Rango VIP Mensual
     };
+
+    // 1. SI ES COMPRA DE GOLCOINS
+    if (packsMonedas[idBotonPayPal]) {
+        const cantidadMonedasGanadas = packsMonedas[idBotonPayPal];
+        const refMonedas = db.ref(`usuarios_futbol/${uid}/monedas`);
+
+        await refMonedas.transaction((monedasActuales) => {
+            return (monedasActuales || 0) + cantidadMonedasGanadas;
+        });
+
+        console.log(`¡Se acreditaron ${cantidadMonedasGanadas} GolCoins al usuario ${uid} con éxito!`);
+        return res.status(200).send('IPN Validated Successfully for Coins');
+    }
+
+    // 2. SI ES COMPRA DE VIP
+    else if (packsVIP[idBotonPayPal]) {
+        const refVip = db.ref(`usuarios_futbol/${uid}/vip`);
+        await refVip.set(true);
+
+        console.log(`¡Estatus VIP activado con éxito para el usuario ${uid}!`);
+        return res.status(200).send('IPN Validated Successfully for VIP');
+    }
+
+    // 3. SI NO ES NINGUNA DE LAS ANTERIORES, SIGUE TU CÓDIGO NORMAL DE ESCUDOS:
+
+     // Fecha formateada para el historial
+      const fechaActual = new Date();
+      const fechaFormateada = `${fechaActual.getDate()}/${fechaActual.getMonth() + 1}/${fechaActual.getFullYear()}`;
         
       // 2. Base de datos o diccionario con la información de todos tus equipos
       const equiposDisponibles = {
