@@ -53,7 +53,19 @@ app.post('/paypal-ipn', async (req, res) => {
       // Fecha formateada para el historial
       const fechaActual = new Date();
       const fechaFormateada = `${fechaActual.getDate()}/${fechaActual.getMonth() + 1}/${fechaActual.getFullYear()}`;
-
+        
+      // 1. Diccionarios con los códigos de los botones de PayPal
+      const packsMonedas = {
+     'QDC4JL76U87WY': 500,   // Pack de 500 GolCoins
+     '4PRHPLP9DRMGU': 1500,  // Pack de 1,500 GolCoins
+     'BCGEK4KX3GEH6': 3500,  // Pack de 3,500 GolCoins
+     'K2LUTJJVV2JTU': 6500,  // Pack de 6,500 GolCoins
+     '6ARQXQM6D6JUA': 15500  // Pack de 15,500 GolCoins
+    };
+     const packsVIP = {
+    'R2JUTXC7BX4A2': true   // Rango VIP Mensual
+    };
+        
       // 2. Base de datos o diccionario con la información de todos tus equipos
       const equiposDisponibles = {
         "barcelona": {
