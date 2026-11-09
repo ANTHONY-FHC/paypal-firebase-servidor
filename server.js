@@ -484,6 +484,10 @@ app.post('/paypal-ipn', async (req, res) => {
         "sportivo ameliano": {
           nombre: "Escudo Sportivo Ameliano",
           imagen: "imagenes escudos de clubes/ameliano.png"
+        },
+        "leon dorado": {
+          nombre: "Escudo Leon Dorado",
+          imagen: "imagenes escudos de clubes/leon.png"  
         }
         // Puedes seguir agregando más equipos aquí abajo simplemente copiando la estructura
       };
