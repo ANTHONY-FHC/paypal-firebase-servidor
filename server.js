@@ -488,6 +488,70 @@ app.post('/paypal-ipn', async (req, res) => {
         "leon dorado": {
           nombre: "Escudo Leon Dorado",
           imagen: "imagenes escudos de clubes/leon.png"  
+        },
+        "tigre dorado": {
+          nombre: "Escudo Tigre Dorado",
+          imagen: "imagenes escudos de clubes/tigre.png"
+        },
+        "lobo dorado": {
+          nombre: "Escudo Lobo Dorado",
+          imagen: "imagenes escudos de clubes/lobo.png"
+        },
+        "aguila dorado": {
+          nombre: "Escudo Águila Dorado",
+          imagen: "imagenes escudos de clubes/aguila.png"
+        },
+        "oso dorado": {
+          nombre: "Escudo Osos Dorado",
+          imagen: "imagenes escudos de clubes/oso.png"
+        },
+        "gorila dorado": {
+          nombre: "Escudo Gorila Dorado",
+          imagen: "imagenes escudos de clubes/gorila.png"
+        },
+        "elefante dorado": {
+          nombre: "Escudo Elefante Dorado",
+          imagen: "imagenes escudos de clubes/elefante.png"
+        },
+        "bufalo dorado": {
+          nombre: "Escudo Búfalo Dorado",
+          imagen: "imagenes escudos de clubes/bufalo.png"
+        },
+        "cobra dorado": {
+          nombre: "Escudo Cobra Dorado",
+          imagen: "imagenes escudos de clubes/cobra.png"
+        },
+        "tiburon dorado": {
+          nombre: "Escudo Tiburón Dorado",
+          imagen: "imagenes escudos de clubes/tiburon.png"
+        },
+        "cocodrilo dorado": {
+          nombre: "Escudo Cocodrilo Dorado",
+          imagen: "imagenes escudos de clubes/cocodrilo.png"
+        },
+        "leopardo dorado": {
+          nombre: "Escudo Leopardo Dorado",
+          imagen: "imagenes escudos de clubes/leopardo.png"
+        },
+        "cabra dorado": {
+          nombre: "Escudo Cabra Dorado",
+          imagen: "imagenes escudos de clubes/cabra.png"
+        },
+        "zorro dorado": {
+          nombre: "Escudo Zorro Dorado",
+          imagen: "imagenes escudos de clubes/zorro.png"
+        },
+        "gato dorado": {
+          nombre: "Escudo Gato Dorado",
+          imagen: "imagenes escudos de clubes/gato.png"
+        },
+        "puma dorado": {
+          nombre: "Escudo Puma Dorado",
+          imagen: "imagenes escudos de clubes/puma.png"
+        },
+        "jabali dorado": {
+          nombre: "Escudo Jabalí Dorado",
+          imagen: "imagenes escudos de clubes/jabali.png"
         }
         // Puedes seguir agregando más equipos aquí abajo simplemente copiando la estructura
       };
